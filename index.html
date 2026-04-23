@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Snippets</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f6f8; color: #333; display: flex; flex-direction: column; align-items: center; }
+        .container { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; width: 100%; text-align: center; }
+        h1 { color: #2c3e50; margin-bottom: 15px; }
+        p { line-height: 1.6; margin-bottom: 20px; }
+        textarea { width: calc(100% - 20px); padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px; min-height: 80px; font-size: 1rem; }
+        button { background-color: #3498db; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s ease; }
+        button:hover { background-color: #2980b9; }
+        pre { background-color: #ecf0f1; padding: 15px; border-radius: 5px; text-align: left; overflow-x: auto; }
+        code { font-family: 'Courier New', monospace; color: #e74c3c; }
+        .price { font-size: 1.2rem; font-weight: bold; margin-top: 25px; color: #27ae60; }
+        .buy-button { background-color: #2ecc71; margin-top: 20px; }
+        .buy-button:hover { background-color: #27ad60; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ Apex Snippets</h1>
+        <p>Effortlessly generate common code snippets with AI. Save time, focus on building.</p>
+        <textarea id="descriptionInput" placeholder="Explain what you need, e.g., 'Python list comprehension to square numbers', 'JavaScript filter array of objects by property'."></textarea>
+        <button onclick="generateSnippet()">Generate Code</button>
+        <div id="output" style="margin-top: 20px;">
+            <!-- Snippet output will appear here -->
+        </div>
+        <p class="price">Get unlimited generations for just $4.99!</p>
+        <button class="buy-button" onclick="window.location.href='#'">Buy Now</button>
+    </div>
+
+    <script>
+        async function generateSnippet() {
+            const description = document.getElementById('descriptionInput').value;
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = '<p>Generating...</p>';
+
+            // This is a placeholder. In a real app, this would call a backend API.
+            try {
+                // Simulate API call
+                const response = await new Promise(resolve => setTimeout(() => {
+                    const mockSnippets = {
+                        'Python list comprehension to square numbers': 'squares = [x**2 for x in range(10)]',
+                        'JavaScript filter array of objects by property': 'const filtered = arr.filter(item => item.property === value);',
+                        'SQL join two tables': 'SELECT * FROM table1 JOIN table2 ON table1.id = table2.table1_id;',
+                        'default': 'Sorry, I couldn't generate that snippet yet. Try a simpler request!'
+                    };
+                    const snippet = mockSnippets[description] || mockSnippets['default'];
+                    resolve({ success: true, code: snippet, language: description.includes('Python') ? 'python' : (description.includes('JavaScript') ? 'javascript' : (description.includes('SQL') ? 'sql' : 'text')) });
+                }, 1500));
+
+                if (response.success) {
+                    outputDiv.innerHTML = `<pre><code class="language-${response.language}">${response.code}</code></pre>`;
+                } else {
+                    outputDiv.innerHTML = `<p style="color: red;">Error: ${response.message || 'Failed to generate snippet.'}</p>`;
+                }
+            } catch (error) {
+                outputDiv.innerHTML = `<p style="color: red;">An unexpected error occurred: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
